@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <mvc:annotation-driven />
+    <mvc:default-servlet-handler/>
+    <context:annotation-config />
+    <context:component-scan base-package="controllers"/>
+    <mvc:view-controller path="/" view-name="index"/>
+    <mvc:view-controller path="/profile" view-name="profile"/>
+    <mvc:view-controller path="/teams" view-name="teams"/>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/worldcup/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="usersService" class="services.usersservices.UsersServiceImpl">
+        <constructor-arg name="usersDao" ref="usersDao" />
+    </bean>
+
+    <bean id="usersDao" class="dao.usersdao.UsersDaoJpaImpl"/>
+
+    <bean id="countriesService" class="services.countriesservices.CountryServiceImpl">
+        <constructor-arg name="countriesDao" ref="countriesDao"/>
+    </bean>
+
+    <bean name="countriesDao" id="countriesDao" class="dao.countriesdao.CountriesDaoJpaImpl"/>
+
+    <bean id="playersService" class="services.playersservices.PlayersServiceImpl">
+        <constructor-arg name="playersDao" ref="playersDao"/>
+    </bean>
+
+    <bean name="playersDao" id="playersDao" class="dao.playersdao.PlayersDaoJpaImpl"/>
+
+
+    <bean id="newsService" class="services.newsservices.NewsServiceImpl">
+        <constructor-arg name="newsDao" ref="newsDao"/>
+    </bean>
+
+    <bean name="newsDao" id="newsDao" class="dao.newsdao.NewsDaoJpaImpl"/>
+
+    <bean name="clubsService" class="services.clubsservices.ClubServiceImpl">
+        <constructor-arg name="clubsDao" ref="clubsDao"/>
+    </bean>
+
+    <bean name="clubsDao" id="clubsDao" class="dao.clubsdao.ClubsDaoJpaImpl"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="username" value="postgres" />
+        <property name="password" value="BVB09" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/wc_proj_users" />
+    </bean>
+
+    <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
+        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
+        <property name="persistenceUnitName" value="Idea_JPA"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <property name="jpaDialect" ref="jpaDialect"/>
+    </bean>
+
+    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+
+    <bean id="jpaVendorAdapter"
+          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="database" value="POSTGRESQL"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.PostgreSQL91Dialect"/>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaDialect" ref="jpaDialect"/>
+    </bean>
+
+
+</beans>
