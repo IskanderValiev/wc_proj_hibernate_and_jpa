@@ -3,6 +3,8 @@ package services.usersservices;
 import dao.usersdao.UsersDao;
 import models.User;
 
+import java.sql.Date;
+
 
 public class UsersServiceImpl implements UsersService {
 
@@ -50,5 +52,15 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public String getLoginByPassword(String password) {
         return usersDao.getLoginByPassword(password);
+    }
+
+    @Override
+    public boolean getGenderByLogin(String login) {
+        return usersDao.getGenderByLogin(login);
+    }
+
+    @Override
+    public Date getDateByLogin(String login) {
+        return usersDao.getDateByLogin(login);
     }
 }

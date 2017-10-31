@@ -18,13 +18,13 @@ public class User {
     @Column(name = "login")
     private String login;
 
-    @Column(name = "password", insertable = false, updatable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "name", insertable = false, updatable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "lastname", insertable = false, updatable = false)
+    @Column(name = "lastname")
     private String lastname;
 
     @Column(name = "email")
@@ -97,6 +97,25 @@ public class User {
 
     public Boolean getAdmin() {
         return isAdmin;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", bday=" + bday +
+                ", city='" + city + '\'' +
+                ", gender=" + gender +
+                ", telephone='" + telephone + '\'' +
+                ", photo='" + photo + '\'' +
+                ", salt='" + salt + '\'' +
+                ", isAdmin=" + isAdmin +
+                '}';
     }
 
     public static Builder builder() {

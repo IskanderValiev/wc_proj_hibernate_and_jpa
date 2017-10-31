@@ -1,5 +1,6 @@
 package dao.countriesdao;
 
+import hibernate.HibernateConnector;
 import hibernate.WorkWithEntityManger;
 import models.Country;
 import org.springframework.stereotype.Repository;
@@ -18,14 +19,14 @@ public class CountriesDaoJpaImpl implements CountriesDao {
     public Country findCountryByName(String name) {
         WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
 
-        return (Country) this.entityManager.createQuery("FROM Country country WHERE country.name = :countryName").setParameter("countryName", name).getSingleResult();
+        return (Country) this.entityManager.createQuery("SELECT country FROM Country country WHERE country.name = :countryName").setParameter("countryName", name).getSingleResult();
     }
 
     @Override
     public List<Country> findALL() {
-        WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
-
-        return this.entityManager.createQuery("FROM Country country").getResultList();
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
+        return this.entityManager.createQuery("SELECT country FROM Country country").getResultList();
     }
 
     @Override

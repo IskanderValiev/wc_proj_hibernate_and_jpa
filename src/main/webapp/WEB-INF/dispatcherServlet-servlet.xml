@@ -13,10 +13,20 @@
     <mvc:view-controller path="/profile" view-name="profile"/>
     <mvc:view-controller path="/teams" view-name="teams"/>
 
+
+    <!--=======================VIEWRESOLVER============================-->
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/worldcup/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <bean id="fmViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="prefix" value="/worldcup/freemarker"/>
+        <property name="suffix" value=".ftl"/>
+    </bean>
+
+    <!--=====================================DAOS AND SERVICES====================================-->
 
     <bean id="usersService" class="services.usersservices.UsersServiceImpl">
         <constructor-arg name="usersDao" ref="usersDao" />
@@ -56,6 +66,8 @@
         <property name="url" value="jdbc:postgresql://localhost:5432/wc_proj_users" />
     </bean>
 
+
+    <!--================================HIBERNATE===========================-->
     <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
         <property name="persistenceUnitName" value="Idea_JPA"/>
@@ -79,5 +91,10 @@
         <property name="jpaDialect" ref="jpaDialect"/>
     </bean>
 
+
+    <!--============================FREEMARKER=======================-->
+    <!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">-->
+        <!--<property name="" value="WEB-INF/worldcup/freemarker/" />-->
+    <!--</bean>-->
 
 </beans>

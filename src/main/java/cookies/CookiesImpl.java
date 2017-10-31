@@ -17,7 +17,8 @@ public class CookiesImpl implements Cookies{
     public Cookie getCookie(String name, HttpServletRequest req, HttpServletResponse response) {
         Cookie[] cookies = req.getCookies();
 
-        Cookie cookie = null;
+        Cookie cookie = new Cookie(name, "guest");
+
         for(int i = 0; i < cookies.length; i++) {
             String cookieName = cookies[i].getName();
             if (cookieName.equals(name)) {
@@ -25,11 +26,11 @@ public class CookiesImpl implements Cookies{
                 break;
             }
         }
-        if (cookie == null) {
-            cookie = new Cookie(name, "guest");
+        if (cookie.getValue().equals("guest")) {
             cookie.setMaxAge(365*24*60*60);
             response.addCookie(cookie);
         }
+
         return cookie;
     }
 }

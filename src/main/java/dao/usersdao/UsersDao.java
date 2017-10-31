@@ -3,6 +3,8 @@ package dao.usersdao;
 import dao.CrudDao;
 import models.User;
 
+import java.sql.Date;
+
 /**
  * Created by isko on 9/25/17.
  */
@@ -16,4 +18,6 @@ public interface UsersDao extends CrudDao<User, Long> {
     boolean isAdmin(String login);
     void updateUsersData(String login, String changeableColumnName , String value);
     String getLoginByPassword(String password);
+    boolean getGenderByLogin(String login);
+    Date getDateByLogin(String login);
 }

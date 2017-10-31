@@ -42,14 +42,14 @@ public class UsersController {
         Cookie cookie = cookies.getCookie("login", request, response);
         String login = Encoder.decryptCookie("iskander", cookie.getValue());
         String name = usersService.getParameterByLogin("name", login) + " " + usersService.getParameterByLogin("lastname", login);
-        String getGender = usersService.getParameterByLogin("gender", login);
-        String gender = "";
-        if (getGender.equals("t")) {
+        boolean getGender = usersService.getGenderByLogin(login);
+        String gender;
+        if (getGender) {
             gender = "Male";
         } else {
             gender = "Female";
         }
-        String bday = usersService.getParameterByLogin("bday", login);
+        String bday = usersService.getDateByLogin(login).toString();
         String city = usersService.getParameterByLogin("city", login);
         String telephone = usersService.getParameterByLogin("telephone", login);
         String email = usersService.getParameterByLogin("email", login);
@@ -59,50 +59,21 @@ public class UsersController {
     }
 
 
-    @RequestMapping(value = "/profile", method = {RequestMethod.POST})
-    public ModelAndView entrance(@RequestParam(value = "signin", required = false) String signin, HttpServletRequest request, HttpServletResponse response) throws LoginException, NoSuchAlgorithmException{
-
-        ModelAndView modelAndView = new ModelAndView();
-        WorkWithModelAndViews workWithModelAndViews = new WorkWithModelAndViewsImpl();
-
-        if (signin != null) {
-
-            String enterlogin = request.getParameter("enterlogin");
-            String enterpassword = Encoder.encrypt(usersService.getParameterByLogin("salt", enterlogin) + request.getParameter(  "enterpass"));
-//            String enterpassword = request.getParameter("enterpass");
-            String email = usersService.getParameterByLogin("email", enterlogin);
-
-            if (enterpassword.equals(usersService.getParameterByLogin("password", enterlogin))) {
-
-                Cookies cookies = new CookiesImpl();
-                cookies.addCookie("login", Encoder.encryptCookie("iskander", enterlogin), response, 365*24*60*60);
-
-                if (request.getParameter("remember") != null) {
-                    Sessions sessions = new SessionsImpl();
-                    sessions.addSession("login", enterlogin, request);
-                }
-
-                String name = usersService.getParameterByLogin("name", enterlogin) + " " + usersService.getParameterByLogin("lastname", enterlogin);
-                String gender = usersService.getParameterByLogin("gender", enterlogin);
-                String bday = usersService.getParameterByLogin("bday", enterlogin);
-                String city = usersService.getParameterByLogin("city", enterlogin);
-                String telephone = usersService.getParameterByLogin("telephone", enterlogin);
-                String image = usersService.getParameterByLogin("photo", enterlogin);
-
-                modelAndView = workWithModelAndViews.showUsersData(enterlogin, name, gender, bday, city, telephone, email, image, "profile");
-                modelAndView.setViewName("redirect:/profile");
-            } else {
-                modelAndView = workWithModelAndViews.throwException("Login or password is incorrect.", "index");
-            }
-        }
-        return modelAndView;
-    }
+//    @RequestMapping(value = "/profile", method = {RequestMethod.POST})
+//    public ModelAndView entrance(@RequestParam(value = "signin", required = false) String signin, HttpServletRequest request, HttpServletResponse response) throws LoginException, NoSuchAlgorithmException{
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        WorkWithModelAndViews workWithModelAndViews = new WorkWithModelAndViewsImpl();
+//
+//
+//        return modelAndView;
+//    }
 
     @RequestMapping(value = "/success", method = RequestMethod.POST)
-    public ModelAndView addUser(@RequestParam(value = "signup", required = false) String signup, HttpServletRequest request, HttpServletResponse response) throws LoginException, NoSuchAlgorithmException, ParseException{
+    public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response) throws LoginException, NoSuchAlgorithmException, ParseException{
         ModelAndView modelAndView = new ModelAndView();
         WorkWithModelAndViews workWithModelAndViews = new WorkWithModelAndViewsImpl();
-        if (signup != null) {
+        if (request.getParameter("signup") != null) {
 
             String login = request.getParameter("login");
             String password = request.getParameter("pass");
@@ -123,18 +94,21 @@ public class UsersController {
             if(UsersValidator.isCorrect(login, password, cpassword, name, lastname,  city, bday, email, telephone)) {
 //                if (!usersService.exists(login)) {
 //                    if (!usersService.existingEmail(email)) {
-                        usersService.addUser(User.builder()
-                                .login(login)
-                                .password(Encoder.encrypt(salt + password))
-                                .name(name)
-                                .lastname(lastname)
-                                .gender(gender)
-                                .bday(bday)
-                                .city(city)
-                                .telephone(telephone)
-                                .email(email)
-                                .salt(salt)
-                                .build());
+                User user = User.builder()
+                        .login(login)
+                        .password(Encoder.encrypt(salt + password))
+                        .name(name)
+                        .lastname(lastname)
+                        .gender(gender)
+                        .bday(bday)
+                        .city(city)
+                        .telephone(telephone)
+                        .email(email)
+                        .salt(salt)
+                        .build();
+
+                        usersService.addUser(user);
+                System.out.println(user.toString());
                         modelAndView.setViewName("success");
 //                    } else {
 //                        modelAndView = workWithModelAndViews.throwException("User with such email already exists", "index");
@@ -144,6 +118,37 @@ public class UsersController {
 //                }
             } else {
                 modelAndView = workWithModelAndViews.throwException("You have to fill all fields", "index");
+            }
+        } else {
+            if (request.getParameter("signin") != null) {
+
+                String enterlogin = request.getParameter("enterlogin");
+                String enterpassword = Encoder.encrypt(usersService.getParameterByLogin("salt", enterlogin) + request.getParameter(  "enterpass"));
+//            String enterpassword = request.getParameter("enterpass");
+                String email = usersService.getParameterByLogin("email", enterlogin);
+
+                if (enterpassword.equals(usersService.getParameterByLogin("password", enterlogin))) {
+
+                    Cookies cookies = new CookiesImpl();
+                    cookies.addCookie("login", Encoder.encryptCookie("iskander", enterlogin), response, 365*24*60*60);
+
+                    if (request.getParameter("remember") != null) {
+                        Sessions sessions = new SessionsImpl();
+                        sessions.addSession("login", enterlogin, request);
+                    }
+
+                    String name = usersService.getParameterByLogin("name", enterlogin) + " " + usersService.getParameterByLogin("lastname", enterlogin);
+                    String gender = usersService.getGenderByLogin(enterlogin) ? "Male" :  "Female";
+                    String bday = usersService.getDateByLogin(enterlogin).toString();
+                    String city = usersService.getParameterByLogin("city", enterlogin);
+                    String telephone = usersService.getParameterByLogin("telephone", enterlogin);
+                    String image = usersService.getParameterByLogin("photo", enterlogin);
+
+                    modelAndView = workWithModelAndViews.showUsersData(enterlogin, name, gender, bday, city, telephone, email, image, "profile");
+                    modelAndView.setViewName("redirect:/profile");
+                } else {
+                    modelAndView = workWithModelAndViews.throwException("Login or password is incorrect.", "index");
+                }
             }
         }
         return modelAndView;

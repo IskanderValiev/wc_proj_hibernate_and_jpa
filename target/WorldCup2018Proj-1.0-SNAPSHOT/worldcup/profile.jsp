@@ -7,34 +7,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="dao.usersdao.UsersDao" %>
-<%@ page import="dao.usersdao.UsersDoaJdbcTemplateImpl" %>
-<%@ page import="org.springframework.jdbc.datasource.DriverManagerDataSource" %>
-<%@ page import="cookies.Cookies" %>
-<%@ page import="cookies.CookiesImpl" %>
 
-
-<%
-//    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//    dataSource.setUrl("jdbc:postgresql://localhost:5432/wc_proj_users");
-//    dataSource.setUsername("postgres");
-//    dataSource.setPassword("BVB09");
-//    UsersDao usersDao = new UsersDoaJdbcTemplateImpl(dataSource);
-//
-//    Cookies cookies = new CookiesImpl();
-//
-//    String login = cookies.getCookie("login", request).getValue();
-//    System.out.println(login);
-//
-//
-//    String name = usersDao.getColumnByLogin("name", login);
-//    String lastname = usersDao.getColumnByLogin("lastname", login);
-//    String city = usersDao.getColumnByLogin("city", login);
-//    String gender = usersDao.getColumnByLogin("gender", login);
-//    String email = usersDao.getColumnByLogin("email", login);
-//    String bday = usersDao.getColumnByLogin("bday", login);
-
-%>
 <!DOCTYPE html>
 <html>
 <head>

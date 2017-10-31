@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.sql.Date;
 
 @Repository
 public class UsersDaoJpaImpl implements UsersDao {
@@ -52,6 +53,20 @@ public class UsersDaoJpaImpl implements UsersDao {
     public String getColumnByLogin(String columnName, String login) {
         WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
         return (String) this.entityManager.createQuery("SELECT user." + columnName + " FROM User user WHERE user.login = :login").setParameter("login", login).getSingleResult();
+    }
+
+    @Override
+    public boolean getGenderByLogin(String login) {
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
+        return (boolean) this.entityManager.createQuery("SELECT user.gender FROM User user WHERE user.login = :login").setParameter("login", login).getSingleResult();
+    }
+
+    @Override
+    public Date getDateByLogin(String login) {
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
+        return (Date) this.entityManager.createQuery("SELECT user.bday from User user WHERE user.login = :login").setParameter("login", login).getSingleResult();
     }
 
     @Override
