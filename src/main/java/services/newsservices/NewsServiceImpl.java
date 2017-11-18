@@ -34,4 +34,9 @@ public class NewsServiceImpl implements NewsService {
     public void addNews(News news) {
         newsDao.save(news);
     }
+
+    @Override
+    public List<News> getAll() {
+        return newsDao.getAll();
+    }
 }

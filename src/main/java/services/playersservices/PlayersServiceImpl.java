@@ -2,10 +2,11 @@ package services.playersservices;
 
 import dao.playersdao.PlayersDao;
 import models.Player;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class PlayersServiceImpl implements PlayersService {
 
     private PlayersDao playersDao;

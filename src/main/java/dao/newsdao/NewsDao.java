@@ -12,4 +12,6 @@ public interface NewsDao extends CrudDao<News, Long> {
     List<News> getAllArticles();
 
     List<News> getAllBlogs();
+
+    List<News> getAll();
 }

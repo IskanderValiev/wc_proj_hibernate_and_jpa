@@ -7,6 +7,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -228,10 +229,17 @@
                     <tr>
                         <td><label>Gender</label></td>
                         <td>
-                            <input type="radio" name="gender" value="true" checked>
-                            <label>Male</label>
-                            <input type="radio" name="gender" value="false">
-                            <label>Female</label>
+                            <c:set var="gender" scope="session" value="${gender}"/>
+                            <c:choose>
+                                <c:when test="${gender}">
+                                    <input id="male" type="radio" name="gender" value="true" checked>
+                                    <label>Male</label>
+                                </c:when>
+                                <c:when test="${!gender}">
+                                    <input id="female" type="radio" name="gender" value="false">
+                                    <label>Female</label>
+                                </c:when>
+                            </c:choose>
                         </td>
                     </tr>
                     <tr>

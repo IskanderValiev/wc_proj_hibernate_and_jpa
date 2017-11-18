@@ -19,6 +19,7 @@ models/Club$1.class
 hibernate/HibernateConnector.class
 services/usersservices/UsersService.class
 dao/countriesdao/CountriesDaoJpaImpl.class
+freemarker/FreemarkerTemplateHandler.class
 dao/usersdao/UsersDaoJpaImpl.class
 services/countriesservices/CountryService.class
 models/Club$Builder.class

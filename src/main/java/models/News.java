@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "news")
@@ -26,6 +27,9 @@ public class News {
 
     @Column(name = "news_type")
     private String type;
+
+//    @OneToMany(mappedBy = "news")
+//    private Set<Comment> commentSet;
 
     public News() {}
 

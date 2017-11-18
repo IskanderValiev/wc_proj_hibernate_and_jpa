@@ -1,5 +1,6 @@
 package controllers;
 
+import freemarker.FreemarkerTemplateHandler;
 import modelandviews.WorkWithModelAndViews;
 import modelandviews.WorkWithModelAndViewsImpl;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,10 @@ public class TeamsController {
 
     @RequestMapping(value = "/teams", method = RequestMethod.GET)
     public ModelAndView getAllCountries() {
-        ModelAndView modelAndView;
+        ModelAndView modelAndView = new ModelAndView();
         WorkWithModelAndViews workWithModelAndViews = new WorkWithModelAndViewsImpl();
         modelAndView = workWithModelAndViews.showAllTeams(countryService.getAllCountries(), "teams");
+        modelAndView.setViewName("country");
         return modelAndView;
     }
 }

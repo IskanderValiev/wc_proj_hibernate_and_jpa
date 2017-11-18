@@ -16,15 +16,20 @@
 
     <!--=======================VIEWRESOLVER============================-->
 
+    <!--<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="prefix" value="/worldcup/freemarker/"/>-->
+        <!--<property name="suffix" value=".ftl"/>-->
+    <!--</bean>-->
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/worldcup/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean id="fmViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-        <property name="prefix" value="/worldcup/freemarker"/>
-        <property name="suffix" value=".ftl"/>
-    </bean>
+    <!--<bean id="fmViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">-->
+        <!--<property name="prefix" value="/worldcup/freemarker"/>-->
+        <!--<property name="suffix" value=".ftl"/>-->
+    <!--</bean>-->
 
     <!--=====================================DAOS AND SERVICES====================================-->
 
@@ -92,9 +97,9 @@
     </bean>
 
 
-    <!--============================FREEMARKER=======================-->
-    <!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">-->
-        <!--<property name="" value="WEB-INF/worldcup/freemarker/" />-->
-    <!--</bean>-->
+    <!--============================FREEMARKER (not working)=======================-->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/worldcup/freemarker/" />
+    </bean>
 
 </beans>

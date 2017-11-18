@@ -10,6 +10,7 @@
         <class>models.Club</class>
         <class>models.Country</class>
         <class>models.Player</class>
+        <class>models.News</class>
 
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/wc_proj_users"/>

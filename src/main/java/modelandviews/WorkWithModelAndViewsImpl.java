@@ -59,6 +59,18 @@ public class WorkWithModelAndViewsImpl implements WorkWithModelAndViews {
     }
 
     @Override
+    public ModelAndView editUsersData(String name, String lastname, boolean gender, String telephone, String email, String viewName) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("name", name);
+        modelAndView.addObject("lastname", lastname);
+        modelAndView.addObject("gender", gender);
+        modelAndView.addObject("telephone", telephone);
+        modelAndView.addObject("email", email);
+        modelAndView.setViewName(viewName);
+        return modelAndView;
+    }
+
+    @Override
     public ModelAndView throwException(String message, String viewName) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("message", message);

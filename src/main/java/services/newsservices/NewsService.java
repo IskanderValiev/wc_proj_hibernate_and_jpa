@@ -10,4 +10,5 @@ public interface NewsService {
     List<News> getAllArticles();
     List<News> getAllBlogs();
     void addNews(News news);
+    List<News> getAll();
 }

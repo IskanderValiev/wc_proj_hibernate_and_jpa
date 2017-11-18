@@ -39,19 +39,22 @@ public class UsersDaoJpaImpl implements UsersDao {
 
     @Override
     public void update(User model) {
-        WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
         this.entityManager.merge(model);
     }
 
     @Override
     public String getPasswordByLogin(String login) {
-        WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
         return null;
     }
 
     @Override
     public String getColumnByLogin(String columnName, String login) {
-        WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
         return (String) this.entityManager.createQuery("SELECT user." + columnName + " FROM User user WHERE user.login = :login").setParameter("login", login).getSingleResult();
     }
 
@@ -76,28 +79,32 @@ public class UsersDaoJpaImpl implements UsersDao {
 
     @Override
     public boolean exists(String login) {
-        WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
         Query query = this.entityManager.createQuery("SELECT user.id FROM User user WHERE user.login = :login").setParameter("login", login);
         return query.getSingleResult() != null;
     }
 
     @Override
     public boolean existingEmail(String email) {
-        WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
         Query query = this.entityManager.createQuery("SELECT user.id FROM User user WHERE user.login = :email").setParameter("email", email);
         return query.getSingleResult() != null;
     }
 
     @Override
     public boolean isAdmin(String login) {
-        WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
         Query query = this.entityManager.createQuery("SELECT user.isAdmin FROM User user WHERE user.login = :login").setParameter("login", login);
         return (Boolean) query.getSingleResult();
     }
 
     @Override
     public void updateUsersData(String login, String changeableColumnName, String value) {
-        WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
+        this.entityManager = HibernateConnector.getConnector().getManager();
+        this.entityManager.getTransaction().begin();
         Query query = this.entityManager.createQuery("UPDATE User SET " + changeableColumnName + " =:newValue WHERE login = :login");
         query.setParameter("newValue", value);
         query.setParameter("login", login);

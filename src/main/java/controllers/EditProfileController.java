@@ -36,13 +36,13 @@ public class EditProfileController {
         System.out.println(login);
         String name = usersService.getParameterByLogin("name", login);
         String lastname = usersService.getParameterByLogin("lastname", login);
-        String gender = usersService.getParameterByLogin("gender", login);
+        boolean gender = usersService.getGenderByLogin(login);
         String bday = usersService.getParameterByLogin("bday", login);
         String city = usersService.getParameterByLogin("city", login);
         String telephone = usersService.getParameterByLogin("telephone", login);
         String email = usersService.getParameterByLogin("email", login);
         String image = usersService.getParameterByLogin("photo", login);
-        modelAndView = workWithModelAndViews.showUsersData(login, name, lastname, gender, bday, city, telephone, email, image, "editprofile");
+        modelAndView = workWithModelAndViews.editUsersData(name, lastname, gender, telephone, email, "editprofile");
         return modelAndView;
     }
 

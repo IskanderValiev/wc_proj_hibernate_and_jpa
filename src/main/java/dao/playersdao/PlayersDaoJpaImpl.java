@@ -28,7 +28,7 @@ public class PlayersDaoJpaImpl implements PlayersDao {
     public List<Player> findAllByCountry(Integer countryId) {
         WorkWithEntityManger.ConnectAndTransaction(this.entityManager);
 
-        Query query = this.entityManager.createQuery("FROM Player player WHERE player.country = :countryid").setParameter("countryid", countryId);
+        Query query = this.entityManager.createQuery("SELECT player FROM Player player WHERE player.country = :countryid").setParameter("countryid", countryId);
         return query.getResultList();
     }
 

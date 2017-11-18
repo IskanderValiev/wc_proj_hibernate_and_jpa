@@ -64,26 +64,27 @@
         <div class="type">
             <h3>News</h3>
             <c:forEach items="${news}" var="news">
-                <div class="newsBlock">
-                    <img src="${news.image}">
-                        ${news.date}
-                    <div class="news_text">
-                        <div class="news_header">${news.header}</div>
-                    </div>
+            <form action="" method="post">
+                <input type="image" src="${article.image}" alt="${article.image}" value="${article.id}" name="newsId">
+                <div class="news_text">
+                    <div class="news_header">${article.header}</div>
                 </div>
+            </form>
             </c:forEach>
         </div>
+
 
         <div class="type">
             <h3>Articles</h3>
             <c:forEach items="${articles}" var="article">
-            <img src="${article.image}">
-            <div class="news_text">
-                <div class="news_header">${article.header}</div>
-            </div>
-        </div>
-        </c:forEach>
-    </div>
+            <form action="" method="post">
+                <input type="image" src="${article.image}" alt="${article.image}" value="${article.id}" name="newsId">
+                <div class="news_text">
+                    <div class="news_header">${article.header}</div>
+                </div>
+            </form>
+            </c:forEach>
+         </div>
 
     <div class="type">
         <h3>Blog</h3>

@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by isko on 9/24/17.
@@ -50,6 +51,9 @@ public class User {
 
     @Column(name = "status")
     private Boolean isAdmin;
+
+//    @OneToMany(mappedBy = "author")
+//    private List<Comment> comments;
 
     public Long getId() {
         return id;

@@ -16,6 +16,7 @@ import validators.NewsValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -72,6 +73,19 @@ public class NewsController {
         } else {
             modelAndView = workWithModelAndViews.showAllContent(news, articles, blogs, "news");
         }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/homepage", method = RequestMethod.GET)
+    public ModelAndView showLastNews() {
+        ModelAndView modelAndView = new ModelAndView("homepage");
+
+        List<News> lastNews = new ArrayList<>();
+        for(int i = newsService.getAll().size() - 5; i < newsService.getAll().size(); i++) {
+            lastNews.add(newsService.getAll().get(i));
+        }
+
+        modelAndView.addObject("lastnews", lastNews);
         return modelAndView;
     }
 }

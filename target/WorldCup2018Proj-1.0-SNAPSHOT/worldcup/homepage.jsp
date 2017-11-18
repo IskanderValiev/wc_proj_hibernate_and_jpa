@@ -11,49 +11,64 @@
   <link rel="stylesheet" href="homepage/slick/slick.css">
   <link rel="stylesheet" href="homepage/slick/slick-theme.css">
   <link rel="stylesheet" href="/worldcup/homepage/style.css">
-    <script>
-        var deadline = '14/06/2018 17:00:00';
-        function getTimeRemaining(endtime) {
-            var t = Date.parse(endtime) - Date.parse(new Date());
-            var days = Math.floor(t/(1000*60*60*24));
-            var hours = Math.floor((t/(1000*60*60))%24);
-            var minutes = Math.floor((t/(1000/60))%60);
-            var seconds = Math.floor((t/1000)%60);
-            return {
-                'total':t,
-                'days':days,
-                'hours':hours,
-                'minutes':minutes,
-                'seconds':seconds
-            };
-        }
+    <script type="text/javascript">
+        function initializeTimer() {
+            var endDate = new Date(2018,5,14); // получаем дату истечения таймера
+            var currentDate = new Date(); // получаем текущую дату
+            var seconds = (endDate-currentDate) / 1000; // определяем количество секунд до истечения таймера
+            if (seconds > 0) {
+                var minutes = seconds/60; // определяем количество минут до истечения таймера
+                var hours = minutes/60; // определяем количество часов до истечения таймера
+                var days = hours/24; //определяем количество дней до истечения таймера
+                minutes = (hours - Math.floor(hours)) * 60; // подсчитываем кол-во оставшихся минут в текущем часе
+                hours = (days - Math.floor(days)) * 24; // целое количество часов до истечения таймера
+                hours = Math.floor(hours); //округляем до целого кол-ва оставшихся часов в текущем дне
+                seconds = Math.floor((minutes - Math.floor(minutes)) * 60); // подсчитываем кол-во оставшихся секунд в текущей минуте
+                minutes = Math.floor(minutes); // округляем до целого кол-во оставшихся минут в текущем часе
+                days = Math.floor(days);
+                setTimePage(days,hours,minutes,seconds); // выставляем начальные значения таймера
 
-        function initClock(id, endtime) {
-            var clock = document.getElementById(id);
-            var daysSpan = clock.querySelector('.days');
-            var hoursSpan = clock.querySelector('.hours');
-            var minutesSpan = clock.querySelector('.minutes');
-            var secondsSpan = clock.querySelector('.seconds');
-
-            function updateClock() {
-                var t = getTimeRemaining(endtime);
-                daysSpan.innerHTML = t.days;
-                hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-                minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-
-                secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-
-                if (t.total <= 0) {
-                    clearInterval(timeinterval);
+                function secOut() {
+                    if (seconds == 0) { // если секунду закончились то
+                        if (minutes == 0) { // если минуты закончились то
+                            if (hours == 0) { // если часы закончились то
+                                if (days == 0) {
+                                    showMessage(timerId); // выводим сообщение об окончании отсчета
+                                } else {
+                                    days--; //уменьшаем кол-во дней
+                                    hours = 23; //обновляем часы
+                                    minutes = 59; //обновляем минуты
+                                    seconds = 59; //обновляем секунды
+                                }
+                            } else {
+                                hours--; // уменьшаем кол-во часов
+                                minutes = 59; // обновляем минуты
+                                seconds = 59; // обновляем секунды
+                            }
+                        } else {
+                            minutes--; // уменьшаем кол-во минут
+                            seconds = 59; // обновляем секунды
+                        }
+                    } else {
+                        seconds--; // уменьшаем кол-во секунд
+                    }
+                    setTimePage(days,hours,minutes,seconds); // обновляем значения таймера на странице
                 }
+                timerId = setInterval(secOut, 1000) // устанавливаем вызов функции через каждую секунду
+            } else {
+                alert("Установленая дата уже прошла");
             }
         }
 
-            updateClock(); // запустите функцию один раз, чтобы избежать задержки
-            var timeinterval = setInterval(updateClock,1000);
+        function setTimePage(d,h,m,s) { // функция выставления таймера на странице
+            var element = document.getElementById("timer"); // находим элемент с id = timer
+            element.innerHTML = "Before World Cup 2018:<br>Days: " + d + " Hours:" + h + " Minutes:" + m + " Seconds:" + s; // выставляем новые значения таймеру на странице
+        }
 
-            initClock('clockdiv', deadline);
+        function showMessage(timerId) { // функция, вызываемая по истчению времени
+            alert("Time is left");
+            clearInterval(timerId); // останавливаем вызов функции через каждую секунду
+        }
     </script>
 </head>
 
@@ -140,6 +155,15 @@
                   <p class="sl_desc">The latest European qualifiers ended without any fresh names added to the list of 2018 FIFA World Cup Russia™ participants.</p>
               </div>
           </a></div>
+          <%--<c:forEach items="${lastnews}" var="${news}">--%>
+              <%--<div class="sl_slide"><a href="#"><img src="${news.image}" alt="slide 5" class="sl_img">--%>
+                  <%--<div class="sl_text">--%>
+                      <%--<h3 class="sl_header">${news.header}</h3>--%>
+                      <%--<p class="sl_desc">The latest European qualifiers ended without any fresh names added to the list of 2018 FIFA World Cup Russia™ participants.</p>--%>
+                  <%--</div>--%>
+              <%--</a></div>--%>
+          <%--</c:forEach>--%>
+          <!--TODO complete slides creating-->
       </div>
 
       <div class="information">

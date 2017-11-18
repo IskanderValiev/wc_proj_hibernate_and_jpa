@@ -18,6 +18,18 @@
 
     </style>
     <script src="http://yastatic.net/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        function search() {
+            var searchDiv = document.getElementById('search');
+            var searchLink = document.getElementById('searchlink');
+
+            searchLink.onclick = function setWidth() {
+                searchDiv.style.width = '100%';
+                searchDiv.style.zIndex = 2;
+            };
+        }
+
+    </script>
     <script type="text/javascript">
         window.onload = function () {
             jQuery("#user-city").text(ymaps.geolocation.city);
@@ -25,7 +37,7 @@
     </script>
     <script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=en-RU" type="text/javascript"></script>
 </head>
-<body>
+<body onload="search()">
 <div id="container">
     <div id="header">
         <div id="menu">

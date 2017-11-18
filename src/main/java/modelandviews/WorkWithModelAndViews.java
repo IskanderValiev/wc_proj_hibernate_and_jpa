@@ -29,6 +29,13 @@ public interface WorkWithModelAndViews {
                                String image,
                                String viewName);
 
+    ModelAndView editUsersData(String name,
+                               String lastname,
+                               boolean gender,
+                               String telephone,
+                               String email,
+                               String viewName);
+
     ModelAndView throwException(String message, String viewName);
 
     ModelAndView showAllTeams(List<Country> countryList, String viewName);
